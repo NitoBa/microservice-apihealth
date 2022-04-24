@@ -1,10 +1,15 @@
+import { Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { Service } from '../../../entities/service';
 import { ServiceStatus, Status } from '../../../entities/service-status';
 import { IServiceRepository } from '../../repositories/iservice-repository';
 
+@Injectable()
 export class CheckStatusServiceUsecase {
-  constructor(private serviceRepository: IServiceRepository) {}
+  constructor(
+    @Inject('IServiceRepository')
+    private readonly serviceRepository: IServiceRepository,
+  ) {}
 
   async execute(service: Service): Promise<ServiceStatus> {
     const serviceStatus = new ServiceStatus();

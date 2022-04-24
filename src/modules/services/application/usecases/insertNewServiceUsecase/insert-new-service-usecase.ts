@@ -1,9 +1,12 @@
 import { IServiceRepository } from '../../repositories/iservice-repository';
 import { IServicesInMemory } from '../../../entities/services-in-memory';
+import { Inject } from '@nestjs/common';
 
 export class InsertNewServiceUsecase {
   constructor(
+    @Inject('IServiceRepository')
     private serviceRepository: IServiceRepository,
+    @Inject('IServicesInMemory')
     private servicesInMemory: IServicesInMemory,
   ) {}
 
