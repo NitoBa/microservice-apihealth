@@ -1,7 +1,7 @@
 import { RabbitMQConfig } from '@golevelup/nestjs-rabbitmq';
 import { ConfigService } from '@nestjs/config';
-import { Channels } from './enums/channels';
-import { Exchanges } from './enums/exchanges';
+import { Channels } from '../enums/channels';
+import { Exchanges } from '../enums/exchanges';
 
 export const createRabbitMqConfig = (configService: ConfigService) => {
   const config: RabbitMQConfig = {
