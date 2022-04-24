@@ -16,7 +16,5 @@ export class InsertNewServiceUsecase {
     this.servicesInMemory.services = [
       ...new Set([...this.servicesInMemory.services, service]),
     ];
-
-    console.log(this.servicesInMemory.services);
   }
 }
