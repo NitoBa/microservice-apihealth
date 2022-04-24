@@ -6,12 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Service {
-  id         String   @id
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   addressUrl String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

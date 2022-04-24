@@ -4,6 +4,7 @@ import { CheckServiceStatusDTO } from '../../application/dtos/check-status-dto';
 import { IServiceRepository } from '../../application/repositories/iservice-repository';
 import { Service } from '../../entities/service';
 import { ServiceModel } from '../models/service-model';
+import axios from 'axios';
 
 @Injectable()
 export class ServiceRepository implements IServiceRepository {
@@ -31,7 +32,7 @@ export class ServiceRepository implements IServiceRepository {
   }
 
   async checkStatus(input: CheckServiceStatusDTO): Promise<boolean> {
-    const response = await fetch(input.addressUrl);
+    const response = await axios.get(input.addressUrl);
     return response.status === 200;
   }
 }

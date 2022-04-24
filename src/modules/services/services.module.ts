@@ -7,7 +7,9 @@ import { GetAllServicesUsecase } from './application/usecases/getAllServicesUsec
 import { InsertNewServiceUsecase } from './application/usecases/insertNewServiceUsecase/insert-new-service-usecase';
 import { ServicesInMemory } from './entities/services-in-memory';
 import { createRabbitMqConfig } from './external/rabbit-mq/config/rabbit-mq.config';
+import { MessageRepositoryRBMQ } from './infra/repositories/message-repository-rbmq';
 import { ServiceRepository } from './infra/repositories/service-repository';
+import { ServiceController } from './presentation/controllers/service-controller';
 
 @Module({
   imports: [
@@ -26,10 +28,20 @@ import { ServiceRepository } from './infra/repositories/service-repository';
       provide: 'IServicesInMemory',
       useValue: ServicesInMemory.getInstance,
     },
+    {
+      provide: 'IMessageRepository',
+      useClass: MessageRepositoryRBMQ,
+    },
     CheckStatusServiceUsecase,
     GetAllServicesUsecase,
     InsertNewServiceUsecase,
+    ServiceController,
   ],
-  exports: [ServiceRepository],
+  exports: [
+    {
+      provide: 'IServiceRepository',
+      useClass: ServiceRepository,
+    },
+  ],
 })
 export class ServicesModule {}
