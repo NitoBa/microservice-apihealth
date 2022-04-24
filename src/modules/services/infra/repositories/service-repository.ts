@@ -3,17 +3,33 @@ import { PrismaService } from 'src/modules/database/prisma/prisma.service';
 import { CheckServiceStatusDTO } from '../../application/dtos/check-status-dto';
 import { IServiceRepository } from '../../application/repositories/iservice-repository';
 import { Service } from '../../entities/service';
+import { ServiceModel } from '../models/service-model';
 
 @Injectable()
 export class ServiceRepository implements IServiceRepository {
   constructor(private readonly prismaService: PrismaService) {}
-  getAll(): Promise<Service[]> {
-    throw new Error('Method not implemented.');
+  async getAll(): Promise<Service[]> {
+    const services = await this.prismaService.service.findMany();
+
+    if (!services) {
+      return [];
+    }
+
+    return services.map((service) => ServiceModel.fromPrisma(service));
   }
 
-  getNewService(serviceId: string): Promise<Service> {
-    throw new Error('Method not implemented.');
+  async getNewService(serviceId: string): Promise<Service> {
+    const service = await this.prismaService.service.findUnique({
+      where: { id: serviceId },
+    });
+
+    if (!service) {
+      return null;
+    }
+
+    return ServiceModel.fromPrisma(service);
   }
+
   async checkStatus(input: CheckServiceStatusDTO): Promise<boolean> {
     const response = await fetch(input.addressUrl);
     return response.status === 200;
