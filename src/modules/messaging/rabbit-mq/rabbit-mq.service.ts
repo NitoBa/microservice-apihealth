@@ -35,7 +35,8 @@ export class RabbitMqService implements OnModuleInit, OnModuleDestroy {
   onModuleDestroy() {
     console.log('RabbitMqService destroyed');
   }
-  async onModuleInit() {
+
+  onModuleInit() {
     console.log('RabbitMqService initialized');
   }
 }
